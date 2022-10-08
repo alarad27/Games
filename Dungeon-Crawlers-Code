@@ -1,4 +1,6 @@
-% Executing the functions for the rooms
+%Code for Dungeon Crawlers done in MATLAB. Currently developing a full version of the game with Ink and Unity.
+
+% Executing the functions for the rooms 
 Room1();
 [roomChoice2, player2_out, atklist2_out] = Room2();
 if roomChoice2 == 1
