@@ -1,0 +1,690 @@
+% Executing the functions for the rooms
+Room1();
+[roomChoice2, player2_out, atklist2_out] = Room2();
+if roomChoice2 == 1
+    Room3();
+end
+player4_out = Room4(player2_out, atklist2_out);
+[player5_out, atklist5_out] = Room5(player4_out, atklist2_out);
+[roomChoice6, player6_out, atklist6_out] = Room6(player5_out, atklist5_out);
+if roomChoice6 == 1 % Forwards
+    [finalPlayer_out, finalAtkList] = Room7(atklist6_out);
+elseif roomChoice6 == 2 % Right
+    player8_out = Room8(player6_out, atklist6_out);
+    [finalPlayer_out, finalAtkList] = Room9(player8_out, atklist6_out);
+end
+cured = Room10(finalPlayer_out, finalAtkList);
+if cured == 1
+    Cured();
+elseif cured == 2
+    Uncured();
+end
+
+% Function for Room 1
+function Room1()
+    fprintf("It’s been an hour since they stopped responding to " + ...
+        "your cries for help, your pounding at the stone.")
+    input('');
+    fprintf("Your hands are scraped raw, your fingertips throbbing at " + ...
+        "endless attempts to pry open the rough, cold cavern wall " + ...
+        "where there once was a door.")
+    input('');
+    fprintf("You finally consider the possibility that they have " + ...
+        "given up and left. The thought brings fresh tears into your " + ...
+        "sore eyes, and deep down,\nyou know that nobody can hear you " + ...
+        "when you tilt your head back and sob into the dank, mildewed air.")
+    input('');
+    fprintf("You jump as a flash of light illuminates the space behind " + ...
+        "you with a blast of hot air. A torch has lit itself.")
+    input('');
+    fprintf("You take it off its space in the wall. In front of you, " + ...
+        "newly lit by the fresh torch, a set of stairs descends into the " + ...
+        "earth.\nThe rank smell of rot cuts through the air from here. " + ...
+        "This is a place of death.")
+    input('');
+    fprintf("You grit your teeth, facing the one irrefutable fact you " + ...
+        "are sure of in this place of uncertainty.")
+    input('');
+    fprintf("There is no way back the way you came. You can only go forward.\n")
+    input('');
+end
+
+% Function for Room 2
+function [roomChoice, player, atklist] = Room2()
+    fprintf("The stairs are slick with a dark liquid. " + ...
+        "You hope it’s not what you think it is.")
+    input('');
+    fprintf("As you approach the next room, you breathe a sigh of relief. " + ...
+        "Obviously, you knew this stairway would have an end, but it was " + ...
+        "hard to\npush away the lingering fear of an endless descent. ")
+    input('');
+    fprintf("This is a regular dungeon, and all regular dungeons had an ending.")
+    input('');
+    fprintf("Your relief is short-lived, however, when you notice the " + ...
+        "enormous bat in the middle of the room. It catches sight of you," + ...
+        "\nand it bares its fangs with a hateful hiss.")
+    input('');
+    % Player inventory items stored in arrays
+    % [name, amount damage/health]
+    dagger = ["Small Dagger", 5];
+    healthptn = ["Health Potion", 5]; % +5 HP to player
+    manaptn = ["Mana Potion", 5]; % +5 MP to player
+    % player starter attack choices
+    atklist = [healthptn; manaptn; dagger];
+    player = [25, 25, 20, 20, 10, 10];
+    [success, player] = Encounter(1, player, atklist);
+    if success == true
+        fprintf("You try to wipe off its blood with shaking hands. Some of it " + ...
+        "got in your mouth, and you cough and spit until you " + ...
+        "can’t taste it anymore.")
+        input('');
+        fprintf("You never should have joined your friends on this " + ...
+            "adventure. You always had a feeling that they preferred " + ...
+            "spending time without you.")
+        input('');
+        fprintf("There are two hallways out of this room.")
+        input('');
+        fprintf("To the left, the smell of rot and death grows stronger. " + ...
+            "You can hear a quiet chittering in the darkness.")
+        input('');
+        fprintf("To the right, there is silence. The smell of decay is " + ...
+            "only slight, but in its place, brackish water and rust.")
+        input('');
+        roomChoice = input("The rooms:\n[1] Left\n[2] Right\nMake your choice: ");
+    elseif success == false
+        cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 1
+            Room2();
+        elseif cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+    end
+end
+
+% Function for Room 3; instant death, automatically goes to Room 4
+% if player wants to continue
+function Room3()
+    fprintf("You would rather not face whatever is making those noises.\n" + ...
+        "Despite the smell of what you are now sure is blood in " + ...
+        "the water, you surely prefer it over decay.")
+    input('');
+    fprintf("You charge ahead, now ready to be one step closer to the " + ...
+        "exit. To being done with this whole affair. To being home.")
+    input('');
+    fprintf("You couldn’t wait to see the faces of your friends when " + ...
+        "you showed them that you did it. That you made it out alive, all " + ...
+        "by yourself.\nThat you were worthy to be a part of " + ...
+        "their group.")
+    input('');
+    fprintf("In your rush, you forget to watch the steps below your feet.")
+    input('');
+    fprintf("What used to be slick but solid stone gives way to " + ...
+        "nothing but air. Your screams echo as you are violently " + ...
+        "pulled downwards by gravity.")
+    input('');
+    fprintf("Your shrieks are cut short when a four-foot stalagmite" + ...
+        " blooms from your chest as you hit the bottom. ")
+    input('');
+    fprintf("You weakly turn your head, coughing blood. Surrounding" + ...
+        " you are several skeletons, all in the same position you are.\n" + ...
+        "You are not the first to meet this fate, and as you stare up" + ...
+        " at the stars through the small hole in the ceiling miles above,\n" + ...
+        "you know that you are far from the last.")
+    input('');
+    cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+end
+
+% Function for Room 4
+function player_out = Room4(player_in, atklist)
+    fprintf("Carefully, you adjust the grip on your torch and ready yourself " + ...
+        "to face whatever is in the next room.")
+    input('');
+    fprintf("A man-sized rat, pitch black with beady red eyes, huddles over " + ...
+        "a skeleton of a past adventurer.")
+    input('');
+    fprintf("Its enormous, bulging eyes lock onto you and it shrieks, " + ...
+        "lurching towards you with clawed hands outstretched.")
+    input('');
+    [success, player_out] = Encounter(2, player_in, atklist);
+    if success == true
+        fprintf("Once again, you wipe the blood of your hands. You are " + ...
+            "tired enough that your hands have stopped shaking.")
+        input('');
+        fprintf("You step over the adventurer’s skeleton. Its grinning face " + ...
+            "stares back at you.")
+        input('');
+        fprintf("Over its wasted frame, it is wearing the most colorful, " + ...
+            "intricate robes you have ever seen. On its head,\n" + ...
+            "a wide-brimmed swashbuckler’s hat, adorned with feathers of " + ...
+            "a bird you’ve only ever seen in storybooks.")
+        input('');
+        fprintf("You’re sure it won’t be missed if you took it.")
+        input('');
+        outfitChoice = input("Take the robes and hat?\n[1] Yes\n[2] No\n Make your choice: ");
+        if outfitChoice == 1
+            fprintf("You are now wearing the absolute sickest outfit you've ever worn in your life. " + ...
+            "The skeleton creaks in place and you jump,\nreadying yourself for a fight. " + ...
+            "It simply raises its fist and gives you a thumbs up. You smile.")
+            input('');
+        elseif outfitChoice == 2
+            fprintf("It's better to leave them as they were.")
+            input('');
+        end
+        fprintf("There is only one exit to this room. You continue on.\n")
+        input('');
+    elseif success == false
+        cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 1
+            Room4(player_in, atklist);
+        elseif cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+    end
+end
+
+% Function for Room 5
+function [player_out, atklist_out] = Room5(player_in, atklist_in)
+    player_in_temp = player_in;
+    fprintf("You carefully peek around the corner. Whatever is in this room, " + ...
+        "you’re determined to take it by surprise.")
+    input('');
+    fprintf("You rush out, yelling a battle cry. But there is no one to answer your call.")
+    input('')
+    fprintf("You stop and look around the room, feeling a little stupid. " + ...
+        "In the center of the room, there is a single stand holding a book.\n" + ...
+        "Your heart skips a beat when recognize it’s a spell tome for fire.")
+    input('')
+    fprintf("The cover is worn and cracked, like it has been well-loved over the years. " + ...
+        "It reminds you of your favorite book in the town library.")
+    input('')
+    bookRead = input("Read the book?\n[1] Yes\n[2] No\n Make your choice: ");
+    if bookRead == 1
+        fprintf("As you pore over the pages, a warmth fills your chest. " + ...
+            "You feel a little stronger than before, a little wiser.")
+        input('');
+        fprintf("You remember how you didn’t speak up after your party found a spell tome " + ...
+            "and ignored you when you asked to read it.\nThey gave it to someone else, " + ...
+            "who simply threw it away in her enchanted bag. You’re sure she still hasn’t read it.")
+        input('');
+        fprintf("You close your eyes and, as if you’ve known how to do so all your life, " + ...
+            "summon fire at the center of your palm. It feels like home. ")
+        input('');
+        fire = ["Flame Spell", 10]; % 10 DMG to enemy, -10 MP
+        atklist_in_temp = [atklist_in; fire];
+    elseif bookRead == 2
+        fprintf("Too suspicious. No matter how much it calls to you, " + ...
+            "how safe you would feel with it in your hands,\n" + ...
+            "you would rather go without the potential knowledge to be safe.")
+        input('');
+        fprintf("You remember how you didn’t speak up after your party found a spell tome " + ...
+            "and ignored you when you asked to read it.\nThey gave it to someone else, " + ...
+            "who simply threw it away in her enchanted bag. You’re sure she still hasn’t read it.")
+        input('');
+        fprintf("You feel a pang of regret for following in her footsteps, " + ...
+            "but you remind yourself that it’s safer to keep away.")
+        input('');
+        atklist_in_temp = [atklist_in];
+    end
+    fprintf("Across the room, almost out of sight in the corner, you spot a medium-sized chest. " + ...
+        "It is already open, but something inside\nwinks back at you in the firelight.")
+    input('');
+    peekChest = input("Look inside the chest?\n[1] Yes\n[2] No\n Make your choice: ");
+    if peekChest == 2
+        fprintf("If it’s already been opened, there must be nothing of use inside.\n" + ...
+            "You leave through the single exit.")
+        input('');
+        player_out = player_in_temp;
+        atklist_out = atklist_in_temp;
+    elseif peekChest == 1
+        fprintf("The top is stuck. You wrench it open as far as you can and reach inside. " + ...
+            "You dig around, trying to feel for anything valuable.\nBut before you find anything, " + ...
+            "the chest roars and, with a quick bang, clamps down on your hand. You take 5 damage.")
+        player_in_temp(1) = player_in_temp(1) - 5;
+        input('');
+        fprintf("You tear your arm out and leap back, blood staining your clothes. " + ...
+            "You are hit with a wave of dizziness\nand you are forced to steady yourself " + ...
+            "against the spell tome stand.")
+        input('');
+        fprintf("The mimic stands at its full height and, with another roar " + ...
+            "that echoes in your ears, bounds towards you at an unnatural speed.")
+        input('');
+        [success, player_out] = Encounter(3, player_in_temp, atklist_in_temp);
+        if success == true
+            fprintf("You are almost too tired to stand. You think the mimic is dead, " + ...
+                "but just to be sure, you bring your foot down on what you think is its head\n" + ...
+                "as hard as you can. The wood splinters into a thousand pieces, " + ...
+                "as if it had always been a normal chest.")
+            input('');
+            fprintf("You get up to leave, but something sparkles at you through the debris, " + ...
+                "just as it had before.")
+            input('');
+            fprintf("Carefully, you lift the pieces away, still ready to jump back " + ...
+                "at the slightest movement.")
+            input('');
+            fprintf("In the dim firelight of the torch, you see 50 gold pieces " + ...
+                "and 3 mana potions glittering at you inside the ruined chest.\n" + ...
+                "You take them and leave through the single exit.\n")
+            input('');
+            player_out(6) = player_out(6) + 3;
+            atklist_out = atklist_in_temp;
+        elseif success == false
+            cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+            if cont == 1
+                Room5(player_in, atklist_in);
+            elseif cont == 2
+                fprintf("GAME OVER")
+                return
+            end
+        end
+    end
+end
+
+% Function for Room 6
+function [roomChoice, player_out, atklist_out] = Room6(player_in, atklist_in)
+    fprintf("A slow, quiet scraping fills the next room. Compared to the noises before, " + ...
+        "this one is careful, measured, deliberate. You proceed with caution.")
+    input('');
+    fprintf("A goblin squats hunched in the center of the room. In her lap sits a bow she has been carving, " + ...
+        "whittled to perfection by an expert hand.\nAlerted by your torch, she turns to you, " + ...
+        "her eyes glittering with both intelligence and malice.")
+    input('');
+    [success, player_out] = Encounter(4, player_in, atklist_in);
+    if success == true
+        fprintf("You take the bow from the dead goblin’s hands. You are almost sorry to " + ...
+            "have destroyed such a master of the craft. Almost.")
+        bow = ["Bow and Arrow", 10];
+        atklist_out = [atklist_in; bow];
+        input('');
+        fprintf("You also search her robe’s many pockets and find 5 health potions.")
+        player_out(5) = player_out(5) + 5;
+        input('');
+        fprintf("You take one last glance before you leave. Even in death, her expression of hateful spite remains.\n" + ...
+            "It reminds you of what you see in your friends’ faces when they look at you.")
+        input('');
+        fprintf("There are two exits ahead. Directly in front of you, there is total silence. " + ...
+            "To your right, deep, heavy breathing.")
+        input('');
+        roomChoice = input("The rooms:\n[1] Forwards\n[2] Right\nMake your choice: ");
+    elseif success == false
+        cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 1
+            Room6(player_in, atklist_in);
+        elseif cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+    end
+end
+
+% Function for Room 7 (path w/ no conflict, less payoff)
+function [player_out, atklist_out] = Room7(player_in, atklist_in)
+    fprintf("As you suspected, there is nothing to face in this room. " + ...
+        "You're almost disappointed. You can’t help feeling like you could have\n" + ...
+        "gotten more, had you taken the other hall.")
+    input('');
+    fprintf("It’s too late now. You can only move forward. You look around the room for anything useful.")
+    input('');
+    fprintf("There, where several bricks had been pried out of the wall, " + ...
+        "you find 20 gold pieces, 1 cure disease potion,\nand a flask of " + ...
+        "purified water. It looks like it was meant\nto be thrown at something, and shatter on impact.")
+    input('');
+    water = ["Purified Water", 0];
+    atklist_out = [atklist_in; water];
+    player_out = player_in;
+    fprintf("You pocket take the potion and the gold pieces. You also clip " + ...
+        "the flask to your belt for an easy reach, just in case.")
+    input('');
+    fprintf("Ahead of you, there is a single exit. It seems that the smell " + ...
+        "of rot has come from this room. The hairs\non the back of your neck " + ...
+        "stand painfully stiff, and a shudder runs through you.")
+    input('');
+    fprintf("There is something evil in this room. Something ancient.\n")
+    input('');
+end
+
+% Function for Room 8 (path w/ more conflict, more payoff)
+function player_out = Room8(player_in, atklist_in)
+    fprintf("Now that you have a taste for adventure, you feel a fire " + ...
+        "in your heart. By now, you have done things\nyou could barely have " + ...
+        "dreamed of, even while in an adventuring party. " + ...
+        "This next challenge is only the next step of your journey.")
+    input('');
+    fprintf("An ogre stands before you. In the tight, cramped space of the dungeon room, " + ...
+        "it looks as tall as a giant.")
+    input('');
+    fprintf("You falter in your steps, and the noise echoes in what " + ...
+        "little space there is. It looks at you dead-on.")
+    input('');
+    fprintf("There is no one here to help you. You are alone. " + ...
+        "You stand firm in place and prepare yourself for battle.")
+    input('');
+    [success, player_out] = Encounter(5, player_in, atklist_in);
+    if success == true
+        fprintf("The earth shakes as it falls face-down. It takes you a " + ...
+            "moment to realize what you’ve done.\nWhat sometimes takes " + ...
+            "an entire mob of villagers, you have done all on your own.")
+        input('');
+        fprintf("You can do nothing but laugh. You laugh harder, longer, " + ...
+            "and louder than you ever had around your old friends." + ...
+            "\nIf they could only see you now.")
+        input('');
+        fprintf("Scattered around the room, among the few bones of the " + ...
+            "unfortunate, you find 30 gold pieces, 5 health potions, " + ...
+            "and 5 mana potions.")
+        player_out(5) = player_out(5) + 5;
+        player_out(6) = player_out(6) + 5;
+        input('');
+        fprintf("Nothing can stop you now. You can feel it deep within; " + ...
+            "it’s almost over, and you’ll leave this dungeon remade.\n")
+        input('');
+    elseif success == false
+        cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 1
+            Room8(player_in, atklist_in);
+        elseif cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+    end
+end
+
+% Function for Room 9
+function [player_out, atklist_out] = Room9(player_in, atklist_in)
+    fprintf("There is nothing to fight in the next room. You’re almost " + ...
+        "disappointed. But you remember how far you’ve come,\nand you " + ...
+        "realize you’ve had more adventure than anyone has ever expected of you.")
+    input('');
+    fprintf("Sunlight trickles in from the ceiling far above. " + ...
+        "It falls on an object in the center of the room.")
+    input('');
+    fprintf("You approach it. It’s a beautiful sword, almost as long as " + ...
+        "you are tall, engraved with epic scenes from the heavens.")
+    input('');
+    fprintf("You take the Hallowed Sword in your hands, and it seems to hum. " + ...
+        "You feel new strength within you, and you stand a little taller.")
+    input('');
+    hallow = ["Hallowed Sword", 20];
+    atklist_out = [atklist_in; hallow];
+    fprintf("To its side, you find 100 gold pieces, 5 health potions, " + ...
+        "3 mana potions, 1 potion of cure disease.")
+    input('');
+    player_out = player_in;
+    player_out(5) = player_out(5) + 5;
+    player_out(6) = player_out(6) + 3;
+    fprintf("Ahead of you, there is a single exit. It seems that the smell " + ...
+        "of rot has come from this room. The hairs\non the back of your neck " + ...
+        "stand painfully stiff, and a shudder runs through you.")
+    input('');
+    fprintf("There is something evil in this room. Something ancient.\n")
+    input('');
+end
+
+% Function for Room 10
+function cured = Room10(player_in, atklist_in)
+    fprintf("You walk into the room with a new confidence. " + ...
+        "Whatever is in here, you can face it.")
+    input('');
+    fprintf("But as you look around, you find nothing. It seems " + ...
+        "completely empty, save for the set of stairs leading up.")
+    input('');
+    fprintf("You cheer with joy. You’ve found the exit. " + ...
+        "You’re going to make it home. You've survived.")
+    input('');
+    fprintf("It isn’t until you're about to cross the threshold do " + ...
+        "you hear movement above you.")
+    input('');
+    fprintf("The soft hiss of an ancient tongue, long dead to the world. " + ...
+        "As the creature drops down from the ceiling, you realize that " + ...
+        "for once,\nyou were the one being hunted.")
+    input('');
+    fprintf("The Elder Vampire grabs the back of your head in its cold, " + ...
+        "sharp fingers. Your ears pop as your skull is slowly crushed\nunder its unrelenting grip.")
+    input('');
+    fprintf("You haven’t felt cold, white terror like this since the " + ...
+        "entrance first slammed shut with you on the wrong side.")
+    input('');
+    fprintf("The air is choked with the now familiar smell of decay. " + ...
+        "You can barely see from the stench; your eyes are watering." + ...
+        "\nYou realize this whole time, it has been coming from the " + ...
+        "creature who is holding your head in a vice.")
+    input('');
+    fprintf("As much as you try to struggle, you can't get free. " + ...
+        "There is a sharp, violent pain that sets you on fire. " + ...
+        "You can do nothing but scream.")
+    input('');
+    fprintf("And then, like it had never even seen you in the " + ...
+        "first place, it drops you to the floor.\nBut you are still " + ...
+        "burning. You’re sure you hit your head on the stone floor, " + ...
+        "but it doesn’t matter right now\nbecause you can do nothing " + ...
+        "but try to gasp for air.")
+    input('');
+    fprintf("You realize it has bitten you, and you only have so long " + ...
+        "before whatever poison is in you now runs\nits full course " + ...
+        "through your veins. For your own sake, you have to make it quick.")
+    input('');
+    [success, ~] = Encounter(6, player_in, atklist_in);
+    if success == true
+        fprintf("With a shrill shriek that sends parts of the cave walls " + ...
+            "crumbling, The Elder Vampire flails violently\nand falls " + ...
+            "to the ground in a twitching heap. You aren’t entirely " + ...
+            "sure it’s dead, but you have no time to lose.")
+        input('');
+        fprintf("With shaking hands, you quickly take the potion of cure " + ...
+            "disease from your bag. Your vision blurs.\nThe cold has now " + ...
+            "made you comfortably numb. You're sure that's not a good sign.")
+        input('');
+        fprintf("But you stop before the drink makes it past your lips. " + ...
+            "After this, you’ll go back to town, rejoin with your group," + ...
+            "\nand listen to their excuses why they never came. And what then?")
+        input('');
+        fprintf("You realize that you can’t stand being around them another minute.")
+        input('');
+        fprintf("The potion of cure disease sits in your hand, growing " + ...
+            "colder in your now-freezing grasp. You have a choice to make.")
+        input('');
+        cured = input("[1] Drink\n[2] Don't Drink\n Make your choice: ");
+    elseif success == false
+        cont = input("Try again?\n[1] Yes\n[2] No\n Make your choice: ");
+        if cont == 1
+            Room10(player_in, atklist_in);
+        elseif cont == 2
+            fprintf("GAME OVER")
+            return
+        end
+    end
+end
+
+% Function for ending w/o taking cure potion
+function Uncured()
+    fprintf("It’s a beautiful night. Stars spill across the sky in a " + ...
+        "glittering song,\nand the open night air is sweet with the " + ...
+        "promise of freedom. Finally, you’ve escaped.")
+    input('');
+    fprintf("You could care less.")
+    input('');
+    fprintf("In the painful, overwhelming cacophony of sights and sounds " + ...
+        "and smells that is your new world, you've found where they are.")
+    input('');
+    fprintf("They made it all the way back to town. They’re being hailed " + ...
+        "as heroes. And they never missed you for a second.")
+    input('');
+    fprintf("Even from here, the air reeks of booze and lies.")
+    input('');
+    fprintf("There is nothing but a cold, empty cavity in your chest now. " + ...
+        "Even when you think of them. Especially when you think of them.")
+    input('');
+    fprintf("You begin the hunt.\n")
+end
+
+% Function for ending w/ taking cure potion
+function Cured()
+    fprintf("It’s a beautiful night. Stars spill across the sky in a " + ...
+        "glittering song,\nand the open night air is sweet with the " + ...
+        "promise of freedom. Finally, you’ve escaped.")
+    input('');
+    fprintf("You raise your arms to the heavens and laugh.")
+    input('');
+    fprintf("You’re not sure where they are, but it doesn’t matter. " + ...
+        "Let them live their lives. You’ve moved on.")
+    input('');
+    fprintf("You hold your bag, now filled with mementos of your " + ...
+        "adventure, against you and smile.\nYour heart grows warm just " + ...
+        "thinking of what you’ll do next. You’re grateful that, " + ...
+        "after everything, it’s still beating.")
+    input('');
+    fprintf("This is only the beginning.\n")
+end
+
+% Function for player's turn during combat
+function [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn)
+    fprintf("Your available attacks:\n")
+    for i = 1:length(atklist)
+        if atklist(i, 1) == "Health Potion"
+            fprintf("[%.0f] %s x%.0f\n", i, atklist(i, 1), player(5))
+        elseif atklist(i, 1) == "Mana Potion"
+            fprintf("[%.0f] %s x%.0f\n", i, atklist(i, 1), player(6))
+        else
+            fprintf("[%.0f] %s, %.0f damage\n", i, atklist(i, 1), atklist(i, 2))
+        end
+    end
+    choice = input("What would you like to use? ");
+    itemName = atklist(choice, 1);
+    itemEffect = str2double(atklist(choice, 2));
+    enemyName = enemy(1);
+    enemyCurHealth = str2double(enemy(2));
+    enemyFullHealth = str2double(enemy(3));
+    % Swinging sword/dagger
+    if itemName == "Small Dagger" || itemName == "Hallowed Sword"
+        enemyCurHealth = enemyCurHealth - itemEffect;
+        enemy(2) = enemyCurHealth;
+        fprintf("You swing your %s. %s takes %.0f damage. " + ...
+            "%s's HP: [%.0f] / [%.0f]\n", itemName, enemyName, itemEffect, ...
+            enemyName, enemyCurHealth, enemyFullHealth)
+    end
+    % Firing arrow
+    if itemName == "Bow and Arrow"
+        enemyCurHealth = enemyCurHealth - itemEffect;
+        enemy(2) = enemyCurHealth;
+        fprintf("You fire an arrow. %s takes %.0f damage. " + ...
+            "%s's HP: [%.0f] / [%.0f]\n", enemyName, itemEffect, ...
+            enemyName, enemyCurHealth, enemyFullHealth)
+    end
+    % Casting fire
+    if itemName == "Flame Spell" && player(3) >= 5
+        enemyCurHealth = enemyCurHealth - itemEffect;
+        enemy(2) = enemyCurHealth;
+        player(3) = player(3) - 5;
+        fprintf("You cast flame. %s takes %.0f damage. " + ...
+            "%s's HP: [%.0f] / [%.0f]. Your MP: [%.0f] / [%.0f]\n", ...
+            enemyName, itemEffect, enemyName, enemyCurHealth, enemyFullHealth, ...
+            player(3), player(4))
+    elseif itemName == "Flame Spell" && player(3) < 5
+        fprintf("The flame sputters to nothing, giving the enemy a chance " + ...
+            "to strike.\n")
+    end
+    % Using purified water
+    if itemName == "Purified Water" && enemyNextTurn == false
+        fprintf("The Elder Vampire staggers, screeching in an " + ...
+            "ancient language and clutching its smoking face. " + ...
+            "You are able to take another action.\n")
+        enemyNextTurn = true;
+        atklist(choice, :) = [];
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    end
+    % Using health potion
+    if itemName == "Health Potion" && (player(1) < player(2)) && player(5) > 0
+        player(1) = player(1) + 5;
+        player(5) = player(5) - 1;
+        fprintf("The healing potion’s restorative energy brings " + ...
+            "strength back to your limbs. You gain 5HP. " + ...
+            "Your current HP: [%.0f]/[%.0f]\n", player(1), player(2))
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    elseif itemName == "Health Potion" && (player(1) >= player(2)) && player(5) > 0
+        fprintf("You can't raise your health any higher than it is.\n")
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    elseif itemName == "Health Potion" && (player(5) <= 0)
+        fprintf("You have no more health potions.\n")
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    end
+    if itemName == "Mana Potion" && (player(3) < player(4)) && player(6) > 0
+        player(3) = player(3) + 5;
+        player(6) = player(6) - 1;
+        fprintf("The mana potion’s arcane knowledge stirs inside you. " + ...
+            "You gain 5MP. Your current MP: [%.0f]/[%.0f]\n", player(3), player(4))
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    elseif itemName == "Mana Potion" && (player(3) >= player(4)) && player(6) >= 0
+        fprintf("You can't raise your mana any higher than it is.\n")
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    elseif itemName == "Mana Potion" && (player(6) <= 0)
+        fprintf("You have no more mana potions.\n")
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+    end
+    enemyNextTurn = false;
+end
+
+% Function for enemy's turn during combat
+function [player, enemy] = EnemyTurn(player, enemy)
+    player(1) = player(1) - str2double(enemy(4));
+    fprintf("%s scores a hit. You take %.0f damage. " + ...
+        "Your current HP: [%.0f]/[%.0f].\n", enemy(1), str2double(enemy(4)), player(1), player(2))
+end
+
+% Function for encounters, returns boolean if character dies
+function [playerSuccess, player] = Encounter(enemyNum, player, atklist)
+    % Player character information stored in array
+    % [current HP, max HP, current MP, max MP, healthptn, manaptn]
+    % Starter stats for player = [25, 25, 20, 20, 10, 10];
+
+    % Enemy character information stored in arrays
+    % [name, current HP, max HP, attack damage]
+    if enemyNum == 1
+        enemy = ["Bat", 10, 10, 5];
+    end
+    if enemyNum == 2
+        enemy = ["Rat", 15, 15, 5];
+    end
+    if enemyNum == 3
+        enemy = ["Mimic", 25, 25, 5];
+    end
+    if enemyNum == 4
+        enemy = ["Goblin", 25, 25, 10];
+    end
+    if enemyNum == 5
+        enemy = ["Ogre", 30, 30, 10];
+    end
+    if enemyNum == 6
+        enemy = ["The Elder Vampire", 75, 75, 10];
+    end
+    enemyNextTurn = false;
+    while (player(1) > 0 && str2double(enemy(2)) > 0)
+        [player, enemy] = PlayerTurn(player, atklist, enemy, enemyNextTurn);
+        if (player(1) <= 0)
+            break
+        end
+        if (str2double(enemy(2)) <= 0)
+            break
+        end
+        [player, enemy] = EnemyTurn(player, enemy);
+        if (player(1) <= 0)
+            break
+        end
+        if (str2double(enemy(2)) <= 0)
+            break
+        end
+    end
+    if player(1) <= 0
+        fprintf("Your vision blurs, your legs grow weak. " + ...
+            "Your knees buckle, and as you hit the ground, " + ...
+            "you wish you never came here in the first place.\n");
+        playerSuccess = false;
+    elseif str2double(enemy(2)) <= 0
+        fprintf("%s falls to the ground dead.\n", enemy(1))
+        playerSuccess = true;
+    end
+end
